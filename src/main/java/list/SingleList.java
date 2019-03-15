@@ -73,6 +73,7 @@ public class SingleList<T> implements commonList<T>{
                     return index;
                 }
                 index++;
+                p = p.next;
             }
         }
         return -1;
@@ -125,5 +126,16 @@ public class SingleList<T> implements commonList<T>{
                 p = p.next;
             }
         }
+    }
+
+    //在链表最后插入元素
+    public void append(T data) {
+            int flag = 0;
+            Node<T> p = this.head;
+            while ( flag <= length() - 1) {
+                p = p.next;
+                flag++;
+            }
+            p.next = new Node<T>(data,null);
     }
 }

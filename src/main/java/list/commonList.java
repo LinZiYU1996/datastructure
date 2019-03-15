@@ -23,7 +23,7 @@ public interface commonList<T> {
 
     void outPut(); //输出整条链表
 
-
+    void append(T data);//  在链表最后插入元素
 
 
 
