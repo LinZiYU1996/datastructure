@@ -4,7 +4,14 @@ package list;
 /*/**
  * @Description:    单链表
  */
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SingleList<T> implements commonList<T>{
+
+    final static Logger logger = LoggerFactory.getLogger(SingleList.class);
 
     public Node<T> head;
 
@@ -21,7 +28,7 @@ public class SingleList<T> implements commonList<T>{
             Node<T> rear = this.head;
             for (int i = 0; i < data.length ; i++) {
                 rear.next = new Node<T>(data[i],null);
-                rear.next = rear;
+                rear = rear.next;
             }
     }
 
@@ -43,7 +50,7 @@ public class SingleList<T> implements commonList<T>{
 
     //返回第i个元素的值 没有则返回null
     public T getElemt(int i) {
-        if (i > 0) {
+        if (i >= 0 && !isEmpty()) {
             Node<T> p = this.head.next;
             for(int j=0 ; p != null && j < i ; j++){
                 p = p.next;
@@ -56,31 +63,67 @@ public class SingleList<T> implements commonList<T>{
     }
 
     //根据 data值查找，存在返回位置序号 ， 不存在返回-1
-    public int locate(T data) {
-        Node<T> p = this.head.next;
-        int index = 1;
-        while (p != null) {
-            if (p.data.equals(data)) {
-                return index;
+    public int locate(T data)
+    {
+        if ( !isEmpty()) {
+            Node<T> p = this.head.next;
+            int index = 0;
+            while (p != null) {
+                if (p.data.equals(data)) {
+                    return index;
+                }
+                index++;
             }
-            index++;
         }
         return -1;
     }
-
+    //在i位置插入数据data
     public void insert(T data, int i) {
         if ( data == null ){
             return;
         }
-        Node<T> p = this.head;
-        for(int j = 0 ; p != null && j < i ; j++){
-            p = p.next;
+        if ( i >= 0 && i <= length() - 1) {
+            Node<T> p = this.head;
+            for(int j = 0 ; p != null && j < i ; j++){
+                p = p.next;
+            }
+            Node<T> newNode = new Node<T>(data,null);
+            newNode.next = p.next;
+            p.next = newNode;
         }
-        p.next = new Node<T>(data,p.next);
 
     }
 
+    //删除i位置的数据
     public void delete(int i) {
+        if ( (i >=0 && i <= length() - 1) && !isEmpty()){
+            Node<T> p = this.head;
+            for(int j = 0 ; p != null && j < i ; j++){
+                p = p.next;
+            }
+            p.next = p.next.next;
+        }
+    }
 
+    // 更改i位置值为data
+    public void setVal(int i, T data) {
+        if( !isEmpty() && (i >= 0 && i <= length()-1)){
+            Node<T> p = this.head;
+            for (int j = 0; p != null && j <= i ; j++) {
+                p = p.next;
+            }
+            p.data = data;
+        }
+    }
+
+    //输出链表
+    public void outPut() {
+        if ( !isEmpty()) {
+            Node<T> p = this.head.next;
+            while ( p != null) {
+                logger.info("{}",p.data);
+                p = p.next;
+            }
+        }
     }
 }

@@ -19,7 +19,9 @@ public interface commonList<T> {
 
     void delete(int i); // 删除位置i的元素
 
+    void setVal(int i,T data); //i位置设为data
 
+    void outPut(); //输出整条链表
 
 
 
