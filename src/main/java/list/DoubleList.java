@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 /*/**
  * @Description:    双链表
  */
-public class DoubleList<T> implements commonList{
+public class DoubleList<T> implements commonList<T>{
 
-    final static Logger logger = LoggerFactory.getLogger(SingleList.class);
+    final static Logger logger = LoggerFactory.getLogger(DoubleList.class);
 
     public DNode<T> head;
 
@@ -33,39 +33,94 @@ public class DoubleList<T> implements commonList{
     }
 
 
-
-
-
-
-
-
-
+    //判断双链表是否为空
     public boolean isEmpty() {
-        return false;
+        return this.head.next == null;
     }
 
+    //返回双链表长度
     public int length() {
-        return 0;
+        int len = 0;
+        DNode<T> p = this.head.next;
+        if ( !isEmpty()){
+            while ( p != null){
+                len++;
+                p = p.next;
+            }
+        }
+        return  len;
     }
 
-    public Object getElemt(int i) {
+    //获取i位置的data
+    public T getElemt(int i) {
+        if ( !isEmpty() && (i >= 0 && i < length()) ){
+            DNode<T> p = this.head.next;
+            for (int j = 0 ; j < i ; j++){
+                p = p.next;
+            }
+            return p.data;
+        }
         return null;
     }
 
-    public int locate(Object data) {
-        return 0;
+    //返回data 位置
+    public int locate(T data) {
+        if ( !isEmpty()){
+            int i = 0;
+            DNode<T> p = this.head.next;
+            while ( p != null) {
+                if ( p.data.equals(data)){
+                    return i;
+                }
+                p = p.next;
+                i++;
+            }
+            return i;
+        }
+        return -1;
     }
 
-    public void insert(Object data, int i) {
+    //插入数据
+    public void insert(T data, int i) {
+        if (data ==null) {
+            return;
+        }
+        if ( !isEmpty() && ( i >= 0 && i < length())) {
+            DNode<T> p = this.head;
+            for (int j = 0 ; p != null &&  j < i ; j++){
+                p = p.next;
+            }
+            DNode<T> node = new DNode<T>();
+            node.data = data;
+            node.next = p.next;
+            p.next.prior = node;
+            p.next = node;
+            node.prior = p;
 
+        }
     }
 
+    //删除数据
     public void delete(int i) {
-
+        if ( !isEmpty() && ( i >= 0 && i < length()) ){
+            DNode p = this.head;
+            for ( int j = 0 ; p != null && j < i ; j++) {
+                p = p.next;
+            }
+            p.next.prior = p;
+            p.next = p.next.next;
+        }
     }
 
-    public void setVal(int i, Object data) {
-
+    // 设值
+    public void setVal(int i, T data) {
+        if ( !isEmpty() && ( i >= 0 && i < length())){
+            DNode p = this.head;
+            for (int j = 0 ; p != null &&j <= i ; j++) {
+                p = p.next;
+            }
+            p.data = data;
+        }
     }
 
     //整体输出双链表
@@ -77,7 +132,15 @@ public class DoubleList<T> implements commonList{
         }
     }
 
-    public void append(Object data) {
-
+    //双链表末尾添加数据
+    public void append(T data) {
+            DNode p = this.head;
+            while ( p.next != null){
+                p = p.next;
+            }
+            DNode dNode = new DNode<T>();
+            dNode.data = data;
+            dNode.prior = p;
+            p.next = dNode;
     }
 }
