@@ -115,15 +115,89 @@ public class SingleListProblems {
     }
 
 
+    /*/**
+     * @Description:    如何判断一个链表有环
+     */
+    public static boolean isLoopList(Node head){
+            Node slowP;
+            Node fastP;
+            slowP = fastP = head;
+            while (fastP != null && fastP.next != null){
+                slowP = slowP.next;
+                fastP = fastP.next.next;
+                if ( slowP == fastP) {
+                    return  true;
+                }
+            }
+            return false;
+
+    }
+
+
+
+    /*/**
+     * @Description:    两个链表的第一个公共结点
+     */
+//    public static  Node findFirstCommonNode(Node head1,Node head2){
+//
+//
+//
+//
+//    }
+
+    /*/**
+     * @Description:    合并两个排序的链表
+     */
+    public static Node<Integer> mergeTwoSortedList(SingleList<Integer> s1,SingleList<Integer> s2){
+            Node<Integer> h1 = s1.head.next;
+            Node<Integer> h2 = s2.head.next;
+            Node<Integer> head = new Node<Integer>();
+            Node<Integer> current = head;
+            while ( h1 != null && h2 != null) {
+               if (h1.data <= h2.data) {
+                   current.next = h1;
+                   h1 = h1.next;
+               } else {
+                   current.next = h2;
+                   h2 = h2.next;
+               }
+               current = current.next;
+            }
+            if (h1 != null) {
+                current.next = h1;
+            }
+            if (h2 != null) {
+                current.next = h2;
+            }
+            return  head.next;
+
+    }
+
+
 
 
 
 
 
     public static void main(String[] args) {
-        Integer data[] = {0,1,2,3,4,5,6};
+        Integer data[] = {1,3,6,9,11};
+        Integer data1[] = {2,5,7,10,25};
         SingleList<Integer> singleList = new SingleList<Integer>();
+        SingleList<Integer> singleList2 = new SingleList<Integer>();
         singleList.createSingleList(data);
+        singleList2.createSingleList(data1);
+
+//        singleList.outPut();
+//        singleList2.outPut();
+
+        Node<Integer> node = mergeTwoSortedList(singleList,singleList2);
+        while (node != null) {
+            logger.info("{}",node.data);
+            node = node.next;
+        }
+
+
+
 
 //        reverseSingleList(singleList);
 //        singleList.outPut();
@@ -133,7 +207,7 @@ public class SingleListProblems {
 
 //        findKth(singleList.head.next,4);
 
-        printLinkListReserving(singleList.head.next);
+//        printLinkListReserving(singleList.head.next);
 
 
     }
